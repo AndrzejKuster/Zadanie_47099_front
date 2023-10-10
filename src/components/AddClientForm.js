@@ -1,7 +1,7 @@
 import axios from 'axios'
 import config from '../config'
 import { useState } from 'react'
-import SelectAction from './SelectAction'
+// import SelectAction from './SelectAction'
 import './AddClientForm.css'
 
 const AddClientForm = (props) => {
@@ -10,15 +10,15 @@ const AddClientForm = (props) => {
     const [nip, setNIP] = useState('')
     const [errors, setErrors] = useState([])
 
-    const [action, setAction] = useState({key: '', val: ''})
+    // const [action, setAction] = useState({key: '', val: ''})
 
-    const choicesOfActions = [
-        ['phone', 'kontakt telefoniczny'],
-        ['meet', 'spotkanie'],
-        ['sms', 'sms do klienta'],
-        ['email', 'email do klienta'],
-        ['other', 'inne']
-    ]
+    // const choicesOfActions = [
+    //     ['phone', 'kontakt telefoniczny'],
+    //     ['meet', 'spotkanie'],
+    //     ['sms', 'sms do klienta'],
+    //     ['email', 'email do klienta'],
+    //     ['other', 'inne']
+    // ]
 
     const handleChangeName = (e) => {
         setName(e.target.value)
@@ -32,13 +32,13 @@ const AddClientForm = (props) => {
         setNIP(e.target.value)
     }
 
-    const handleChangeActionSelect = (e) => {
-        console.log(e.target.options)
-        setAction({
-            key: e.target.value,
-            val: e.target.options[e.target.selectedIndex].innerText
-        })
-    }
+    // const handleChangeActionSelect = (e) => {
+    //     console.log(e.target.options)
+    //     setAction({
+    //         key: e.target.value,
+    //         val: e.target.options[e.target.selectedIndex].innerText
+    //     })
+    // }
 
     const saveClient = (eventObj) => {
         console.log(eventObj)
@@ -89,7 +89,7 @@ const AddClientForm = (props) => {
                     <input type="text" id="nip" value={nip} onChange={handleChangeNip} />
                 </div>
 
-                <div className="wrapper">
+                {/* <div className="wrapper">
                     <label htmlFor="action">Akcja</label>
                     <SelectAction
                         values={choicesOfActions}
@@ -97,7 +97,7 @@ const AddClientForm = (props) => {
                         onValueChange={handleChangeActionSelect}
                         id="actionSelect"
                     />
-                </div>
+                </div> */}
 
                 <div className="wrapper">
                     <button type="submit">Zapisz firmę</button>
