@@ -5,15 +5,24 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import config from '../config'
 import SelectAction from './SelectAction';
+import { useEffect } from 'react';
 
 const FindCompany = () => {
 
     const [nip, setNip] = useState('')
     const [name, setName] = useState('')
-    const [client_id, setClient_id] = useState('')
+    const [clientId, setClientId] = useState('')
     const [selectedDate, setSelectedDate] = useState(null);
     const [action, setAction] = useState({ key: '', val: '' })
     const [description, setDescription] = useState('')
+    const [clientActions, setClientActions] = useState([])
+
+    useEffect(() => {
+        if (clientId) {
+            showActions();
+        }
+        console.log("useEffect clientId: ", clientId);
+    }, [clientId], [clientActions])
 
     const choicesOfActions = [
         ['phone', 'kontakt telefoniczny'],
@@ -27,6 +36,7 @@ const FindCompany = () => {
     }
 
     const handleDateChange = (date) => {
+        console.log("data wejściowa: ", date);
         setSelectedDate(date);
     };
 
@@ -42,11 +52,12 @@ const FindCompany = () => {
         })
     }
 
-    const showActions = (e) => {
+    const showActions = () => {
         axios
-            .get(config.api.url + '/actions/clients/' + client_id + '/actions')
+            .get(config.api.url + '/actions/clients/' + clientId + '/actions')
             .then((res) => {
-                console.log("zapisane akcje to klienta: ", res.data);
+                console.log("zapisane akcje tego klienta to: ", res.data);
+                setClientActions(res.data)
             })
             .catch((err) => {
                 console.log(err);
@@ -56,13 +67,14 @@ const FindCompany = () => {
     const saveClientAction = (eventObj) => {
         console.log(eventObj)
         console.log('saveClientAction')
-        axios.post(config.api.url + '/actions/add', eventObj, {mode: 'cors'})
-        .then((res) => {
-            console.log(res)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+        axios.post(config.api.url + '/actions/add', eventObj, { mode: 'cors' })
+            .then((res) => {
+                console.log(res)
+                showActions()
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     const resetClientActionForm = () => {
@@ -76,23 +88,23 @@ const FindCompany = () => {
             date: selectedDate,
             actionType: action,
             description: description,
-            client_id: client_id
+            client_id: clientId
         }
-        console.log("akcja klienta do zapisu do bazy: ",newClientAction);
+        console.log("akcja klienta do zapisu do bazy: ", newClientAction);
         saveClientAction(newClientAction)
         resetClientActionForm()
     }
 
     const findClient = (e) => {
+        console.log("e.target ", e);
         axios
             .get(config.api.url + '/clients/find/' + e.target[0].value)
             .then((res) => {
-                console.log(res.data)
-                setName(res.data.name)
+                console.log("res.data: ", res.data);
+                setName(res.data.name);
+                setClientId(res.data._id);
                 console.log("id w bazie: ", res.data._id);
-                setClient_id(res.data._id)
-                showActions()
-
+                console.log("clientId w state: ", clientId);
             })
             .catch((err) => {
                 console.log(err)
@@ -115,14 +127,14 @@ const FindCompany = () => {
                         <button type="submit">Szukaj</button>
                     </div>
                 </form>
-                <pre> Firma: {name}    data akcji:    select akcji:  opis akcji:</pre>
+                <pre> Firma: {name} </pre>
 
                 <form action='#' onSubmit={validateActionForm}>
                     <div className='wrapper'>
                         <DatePicker
                             selected={selectedDate}
                             onChange={handleDateChange}
-                            dateFormat="dd/MM/yyyy"
+                            dateFormat="yyyy/MM/dd"
                             isClearable
                             placeholderText="Ustaw datę"
                         />
@@ -153,12 +165,16 @@ const FindCompany = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>test</th>
-                            <th>test</th>
-                            <th>test</th>
-                        </tr>
+                        {clientActions.map((action) => (
+                            <tr key={action._id}>
+                                <td>{action.date.slice(0, 10)}</td>
+                                <td>{action.actionType.val}</td>
+                                <td>{action.description}</td>
 
+                            </tr>
+                        )
+                        )
+                        }
                     </tbody>
                 </table>
             </div>
