@@ -1,0 +1,47 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr:nth-of-type(odd) {
+    background-color: #eee;
+    color: #333;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+    font-weight: bold;
+}
+
+td, th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+button.delete {
+    padding: 10px;
+    border: 1px solid #111;
+    background-color: #f3adad;
+    font-weight: 600;
+    min-width: 60%;
+}
+
+button.delete:hover {
+    cursor: pointer;
+    background-color: red;
+}
+
+button.edit {
+    padding: 10px;
+    border: 1px solid #111;
+    background-color: yellow;
+    font-weight: 600;
+    min-width: 60%;
+}
+
+button.edit:hover {
+    cursor: pointer;
+    background-color: magenta;
+}

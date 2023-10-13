@@ -23,7 +23,7 @@ const ClientsTable = ({ clients, deleteClient, ...rest }) => {
                             <td>{row.address}</td>
                             <td>{row.NIP}</td>
                             <td>
-                                <button onClick={() => {deleteClient(row._id)}} className='delete'>Edytuj</button>
+                                <button onClick={() => {deleteClient(row._id)}} className='edit'>Edytuj</button>
                             </td>
                             <td>
                                 <button onClick={() => {deleteClient(row._id)}} className='delete'>Usuń</button>

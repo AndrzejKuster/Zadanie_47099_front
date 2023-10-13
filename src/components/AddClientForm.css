@@ -1,3 +1,25 @@
 form {
     color: white;
 }
+
+form .wrapper {
+    /* display: inline-block; */
+    padding-right: 10px;
+}
+
+form input {
+    width: 100%;
+    background-color: aquamarine;
+}
+
+form .btn-wrapper {
+    padding-top: 10px;
+    text-align: center;
+}
+
+#btn-wrapper {
+    color: #fff;
+    background-color: green;
+    width: 600px;
+    height: 40px;
+}

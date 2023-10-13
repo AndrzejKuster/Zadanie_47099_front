@@ -77,15 +77,15 @@ const AddClientForm = (props) => {
         <div>
             <form action="#" onSubmit={validateClientForm}>
                 <div className="wrapper">
-                    <label htmlFor="name">Nazwa firmy</label>
+                    <label htmlFor="name">Nazwa firmy: </label>
                     <input type="text" id="name" value={name} onChange={handleChangeName} />
                 </div>
                 <div className="wrapper">
-                    <label htmlFor="address">Adres firmy</label>
+                    <label htmlFor="address">Adres firmy: </label>
                     <input type="text" id="address" value={address} onChange={handleChangeAddress} />
                 </div>
                 <div className="wrapper">
-                    <label htmlFor="nip">NIP</label>
+                    <label htmlFor="nip">NIP: </label>
                     <input type="text" id="nip" value={nip} onChange={handleChangeNip} />
                 </div>
 
@@ -99,8 +99,8 @@ const AddClientForm = (props) => {
                     />
                 </div> */}
 
-                <div className="wrapper">
-                    <button type="submit">Zapisz firmę</button>
+                <div className="btn-wrapper">
+                    <button type="submit" id="btn-wrapper">Zapisz firmę</button>
                 </div>
             </form>
 
