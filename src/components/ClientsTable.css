@@ -1,6 +1,15 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.btn-wrapper {
+    text-align: center;
 }
 
 tr:nth-of-type(odd) {
@@ -44,4 +53,18 @@ button.edit {
 button.edit:hover {
     cursor: pointer;
     background-color: magenta;
+}
+
+button.addClient {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #111;
+    background-color: yellow;
+    font-weight: 600;
+    min-width: 60%;
+}
+
+button.addClient:hover {
+    cursor: pointer;
+    background-color: #c1e719;
 }
