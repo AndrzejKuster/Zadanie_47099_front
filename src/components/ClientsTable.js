@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom'
 import './ClientsTable.css'
 
-const ClientsTable = ({ clients, deleteClient, ...rest }) => {
+const ClientsTable = ({ clients, editClient, deleteClient, ...rest }) => {
 
     return (
         <div>
@@ -26,7 +27,10 @@ const ClientsTable = ({ clients, deleteClient, ...rest }) => {
                                 <td>{row.address}</td>
                                 <td>{row.NIP}</td>
                                 <td>
-                                    <button onClick={() => { }} className='edit'>Edytuj</button>
+                                    <Link to={`/edit-client/${row._id}`}>
+                                        <button className='edit'>xEdytuj</button>
+                                    </Link>
+                                    {/* <button onClick={() => {editClient(row._id) }} className='edit'>Edytuj</button> */}
                                 </td>
                                 <td>
                                     <button onClick={() => { deleteClient(row._id) }} className='delete'>Usuń</button>

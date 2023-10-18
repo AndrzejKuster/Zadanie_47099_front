@@ -2,10 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import config from "../config";
 import { Link } from "react-router-dom";
+import FindCompany from "../components/FindCompany";
 
 const ClientsList = () => {
 
     const [clients, setClients] = useState([])
+    const [editClientId, setEditClientId] = useState('')
+
     useEffect(() => {
         getClients()
     }, [])
@@ -20,6 +23,24 @@ const ClientsList = () => {
             .catch((err) => {
                 console.error(err)
             })
+    }
+
+    const editClient = (editClientId) => {
+        console.log("sprawdzam id: ", editClientId);
+        if (window.confirm('Czy na pewno edytować firmę?')) {
+            axios
+                .put((config.api.url + '/clients/delete/' + editClientId))
+                .then((res) => {
+                    console.log(res);
+                    if (res.data.deleted) {
+                        console.log('deleteClient, zaraz pobiorę nową listę klientów');
+                        getClients()
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                })
+        }
     }
 
     const deleteClient = (rowId) => {
@@ -46,6 +67,18 @@ const ClientsList = () => {
             <div>
 
                 <h1>Lista klientów</h1>
+                <div className="btns">
+                    <div className='btn-wrapper'>
+                        <Link to={"/add-action"}>
+                            <button className='searchClient' >Wyszukaj klienta</button>
+                        </Link>
+                    </div>
+                    <div className='btn-wrapper'>
+                        <Link to={"/add-client"}>
+                            <button className='addClient' >Dodaj nowego klienta</button>
+                        </Link>
+                    </div>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -66,7 +99,11 @@ const ClientsList = () => {
                                     <td>{row.address}</td>
                                     <td>{row.NIP}</td>
                                     <td>
-                                        <button onClick={() => { }} className='edit'>Edytuj</button>
+                                        <Link to={`/edit-client/${row._id}`}>
+                                            <button
+                                                className="edit">Edytuj</button>
+                                        </Link>
+                                        {/* <button onClick={() => { }} className='edit'>Edytuj</button> */}
                                     </td>
                                     <td>
                                         <button onClick={() => { deleteClient(row._id) }} className='delete'>Usuń</button>
@@ -78,19 +115,8 @@ const ClientsList = () => {
                     </tbody>
                 </table>
 
-                <div className='tableContainer'>
-                    {/* <ClientsTable clients={clients} deleteClient={deleteClient} className="table" /> */}
-                </div>
-                <div className='btn-wrapper'>
-                    <Link to={"/add-client"}>
-                        <button className='addClient' >Dodaj nowego klienta</button>
-                    </Link>
-                </div>
             </div>
         </div>
-        // <div className='tableContainer'>
-        //     <ClientsTable clients={clients} deleteClient={deleteClient} className="table" />
-        // </div>
     )
 };
 

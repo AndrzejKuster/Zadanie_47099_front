@@ -1,24 +1,33 @@
 import axios from 'axios'
 import config from '../config'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import SelectAction from './SelectAction'
 import './AddClientForm.css'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const AddClientForm = (props) => {
+const EditClientForm = (props) => {
+
+    const navigate = useNavigate();
+    const {clientId} = useParams();
     const [name, setName] = useState('')
     const [address, setAddress] = useState('')
     const [nip, setNIP] = useState('')
     const [errors, setErrors] = useState([])
-
-    // const [action, setAction] = useState({key: '', val: ''})
-
-    // const choicesOfActions = [
-    //     ['phone', 'kontakt telefoniczny'],
-    //     ['meet', 'spotkanie'],
-    //     ['sms', 'sms do klienta'],
-    //     ['email', 'email do klienta'],
-    //     ['other', 'inne']
-    // ]
+    
+    useEffect(() => {
+        axios.get(config.api.url + `/clients/findone/${clientId}`)
+          .then(response => {
+            const clientData = response.data;
+            console.log(clientData);
+            setName(clientData.name);
+            setAddress(clientData.address);
+            setNIP(clientData.NIP);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }, [clientId]);
+ 
 
     const handleChangeName = (e) => {
         setName(e.target.value)
@@ -32,13 +41,16 @@ const AddClientForm = (props) => {
         setNIP(e.target.value)
     }
 
-    const saveClient = (eventObj) => {
+    const updateClient = (eventObj) => {
+        // props.getClients();
+
         console.log(eventObj)
-        console.log('saveClient')
-        axios.post(config.api.url + '/clients/add', eventObj, {mode: 'cors'})
+        console.log('updateClient')
+        axios.put(config.api.url + '/clients/edit/'+clientId, eventObj, {mode: 'cors'})
         .then((res) => {
             console.log(res)
-            props.getClients();
+            navigate('/clients')
+            // props.getClients();
         })
         .catch((err) => {
             console.log(err)
@@ -55,18 +67,19 @@ const AddClientForm = (props) => {
     const validateClientForm = (e) => {
         e.preventDefault()
 
-        const newClient = {
+        const editedClient = {
             name: name,
             address: address,
             NIP: nip
         }
     
-        saveClient(newClient)
+        updateClient(editedClient)
         resetClientForm()
     }
 
     return (
         <div>
+            <h2>Edycja klienta</h2>
             <form action="#" onSubmit={validateClientForm}>
                 <div className="wrapper">
                     <label htmlFor="name">Nazwa firmy: </label>
@@ -81,7 +94,7 @@ const AddClientForm = (props) => {
                     <input type="text" id="nip" value={nip} onChange={handleChangeNip} />
                 </div>
                 <div className="btn-wrapper">
-                    <button type="submit" id="btn-wrapper">Zapisz firmę</button>
+                    <button type="submit" id="btn-wrapper">Zaktualizuj dane</button>
                 </div>
             </form>
 
@@ -92,4 +105,4 @@ const AddClientForm = (props) => {
     )
 }
 
-export default AddClientForm;
+export default EditClientForm;

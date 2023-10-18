@@ -16,13 +16,15 @@ const FindCompany = () => {
     const [action, setAction] = useState({ key: '', val: '' })
     const [description, setDescription] = useState('')
     const [clientActions, setClientActions] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     useEffect(() => {
         if (clientId) {
             showActions();
         }
         console.log("useEffect clientId: ", clientId);
-    }, [clientId], [clientActions])
+    }, [clientId])
 
     const choicesOfActions = [
         ['phone', 'kontakt telefoniczny'],
@@ -31,8 +33,8 @@ const FindCompany = () => {
         ['email', 'email do klienta'],
         ['other', 'inne']
     ]
-    const handleChangeName = (e) => {
-        setNip(e.target.value)
+    const handleChangeNIP = (e) => {
+        setSearchTerm(e.target.value)
     }
 
     const handleDateChange = (date) => {
@@ -71,6 +73,7 @@ const FindCompany = () => {
             .then((res) => {
                 console.log(res)
                 showActions()
+                resetClientActionForm()
             })
             .catch((err) => {
                 console.log(err)
@@ -78,7 +81,8 @@ const FindCompany = () => {
     }
 
     const resetClientActionForm = () => {
-
+        setSelectedDate(null);
+        setDescription(null);
     }
 
     const validateActionForm = (e) => {
@@ -96,15 +100,16 @@ const FindCompany = () => {
     }
 
     const findClient = (e) => {
+        e.preventDefault();
         console.log("e.target ", e);
         axios
-            .get(config.api.url + '/clients/find/' + e.target[0].value)
+            .get(config.api.url + '/clients/find?searchTerm='+`${searchTerm}`)
             .then((res) => {
                 console.log("res.data: ", res.data);
                 setName(res.data.name);
                 setClientId(res.data._id);
                 console.log("id w bazie: ", res.data._id);
-                console.log("clientId w state: ", clientId);
+                // console.log("clientId w state: ", clientId);
             })
             .catch((err) => {
                 console.log(err)
@@ -121,12 +126,17 @@ const FindCompany = () => {
                 <form action='#' onSubmit={findClient}>
                     <div className="wrapper">
                         <label htmlFor="nip">Wpisz NIP szukanej firmy</label>
-                        <input type="text" id="nip" value={nip} onChange={handleChangeName} />
+                        <input type="text" id="nip" value={searchTerm} onChange={handleChangeNIP} />
                     </div>
                     <div className="wrapper">
                         <button type="submit">Szukaj</button>
                     </div>
                 </form>
+
+
+
+
+
                 <pre> Firma: {name} </pre>
 
                 <form action='#' onSubmit={validateActionForm}>
