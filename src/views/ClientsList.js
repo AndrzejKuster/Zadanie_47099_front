@@ -2,58 +2,42 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import config from "../config";
 import { Link } from "react-router-dom";
-import FindCompany from "../components/FindCompany";
+import './ClientsList.css'
 
 const ClientsList = () => {
 
     const [clients, setClients] = useState([])
-    const [editClientId, setEditClientId] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
+    const [name, setName] = useState('')
+
+    const handleChangeNIP = (e) => {
+        setSearchTerm(e.target.value)
+    }
 
     useEffect(() => {
-        getClients()
-    }, [])
+        findClient();
+    }, [searchTerm]);
 
-    const getClients = () => {
+    const findClient = () => {
         axios
-            .get(config.api.url + '/clients')
+            .get(config.api.url + '/clients/find?searchTerm=' + `${searchTerm}`)
             .then((res) => {
-                console.log('odczyt z funkcji getClients: ', res.data);
+                setName(res.data.name);
                 setClients(res.data)
             })
             .catch((err) => {
-                console.error(err)
+                console.log(err)
             })
     }
 
-    const editClient = (editClientId) => {
-        console.log("sprawdzam id: ", editClientId);
-        if (window.confirm('Czy na pewno edytować firmę?')) {
-            axios
-                .put((config.api.url + '/clients/delete/' + editClientId))
-                .then((res) => {
-                    console.log(res);
-                    if (res.data.deleted) {
-                        console.log('deleteClient, zaraz pobiorę nową listę klientów');
-                        getClients()
-                    }
-                })
-                .catch((err) => {
-                    console.error(err)
-                })
-        }
-    }
-
     const deleteClient = (rowId) => {
-        console.log(rowId);
         if (window.confirm('Czy na pewno usunąć firmę?')) {
-            console.log('jestem w if');
             axios
                 .delete((config.api.url + '/clients/delete/' + rowId))
                 .then((res) => {
-                    console.log(res);
                     if (res.data.deleted) {
-                        console.log('deleteClient, zaraz pobiorę nową listę klientów');
-                        getClients()
+                        findClient()
+                        window.alert("Firma została usunięta!")
                     }
                 })
                 .catch((err) => {
@@ -65,20 +49,23 @@ const ClientsList = () => {
     return (
         <div>
             <div>
-
                 <h1>Lista klientów</h1>
-                <div className="btns">
+                <div className="searchAndAdd">
+                    <input
+                        type="text"
+                        id="nip"
+                        value={searchTerm}
+                        onChange={handleChangeNIP}
+                        placeholder="Wpisz szukany NIP"
+                    />
+
                     <div className='btn-wrapper'>
-                        <Link to={"/add-action"}>
-                            <button className='searchClient' >Wyszukaj klienta</button>
-                        </Link>
-                    </div>
-                    <div className='btn-wrapper'>
-                        <Link to={"/add-client"}>
+                        <Link to={"/clients/add"}>
                             <button className='addClient' >Dodaj nowego klienta</button>
                         </Link>
                     </div>
                 </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -99,11 +86,10 @@ const ClientsList = () => {
                                     <td>{row.address}</td>
                                     <td>{row.NIP}</td>
                                     <td>
-                                        <Link to={`/edit-client/${row._id}`}>
+                                        <Link to={`/clients/edit/${row._id}`}>
                                             <button
                                                 className="edit">Edytuj</button>
                                         </Link>
-                                        {/* <button onClick={() => { }} className='edit'>Edytuj</button> */}
                                     </td>
                                     <td>
                                         <button onClick={() => { deleteClient(row._id) }} className='delete'>Usuń</button>

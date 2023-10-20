@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
-import './ClientsTable.css'
+// import './ClientsTable.css'
+
 
 const ClientsTable = ({ clients, editClient, deleteClient, ...rest }) => {
 
+   
     return (
         <div>
 

@@ -1,5 +1,5 @@
 import './App.css';
-import ClientsTable from './components/ClientsTable';
+// import ClientsTable from './components/ClientsTable';
 import { useState } from 'react';
 import AppRoutes from './routes/AppRoutes';
 import AppNav from './components/AppNav';

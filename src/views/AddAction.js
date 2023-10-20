@@ -1,10 +1,11 @@
-import FindCompany from "../components/FindCompany";
+import AddActionForm from "../components/AddActionForm";
+import FindCompany from "../components/AddActionForm";
 
 
-const AddAction = () => {
+const AddAction = (props) => {
     return (
-        <div className='formFindConpany'>
-            <FindCompany />
+        <div className='formAddAction'>
+            <AddActionForm />
         </div>
 
     )

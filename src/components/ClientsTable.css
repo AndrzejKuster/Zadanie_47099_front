@@ -26,15 +26,17 @@ th {
 td, th {
     padding: 6px;
     border: 1px solid #ccc;
-    text-align: left;
+    text-align: center;
 }
 
 button.delete {
+    margin: auto;
+    width: 60px;
     padding: 10px;
     border: 1px solid #111;
     background-color: #f3adad;
     font-weight: 600;
-    min-width: 60%;
+    min-width: 30%;
 }
 
 button.delete:hover {
@@ -43,11 +45,12 @@ button.delete:hover {
 }
 
 button.edit {
+    width: 60px;
     padding: 10px;
     border: 1px solid #111;
     background-color: rgb(120, 182, 160);
     font-weight: 600;
-    min-width: 60%;
+    min-width: 30%;
 }
 
 button.edit:hover {
@@ -55,16 +58,30 @@ button.edit:hover {
     background-color: magenta;
 }
 
-.btns {
+/* .btns {
     max-width: 800px;
     display: flex;
     justify-content: center;
+} */
+
+/* form {
+    display: flex;
+    justify-content: center;
+} */
+
+.btns input {
+    height: 34px;
+    max-width: 100px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    margin-right: 15px;
 }
 
 button.addClient {
     text-align: center;
     padding: 10px;
     border: 1px solid #111;
+    color: #111;
     background-color: yellow;
     font-weight: 600;
     max-width: 190px;
@@ -74,7 +91,8 @@ button.searchClient {
     text-align: center;
     padding: 10px;
     border: 1px solid #111;
-    background-color: yellow;
+    color: #111;
+    background-color: #8dcbb3;
     font-weight: 600;
     max-width: 190px;
     margin-right: 20px;
@@ -87,5 +105,5 @@ button.addClient:hover {
 
 button.searchClient:hover {
     cursor: pointer;
-    background-color: #c8d58c;
+    background-color: #7f9229;
 }

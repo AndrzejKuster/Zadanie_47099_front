@@ -1,0 +1,52 @@
+h1 {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.searchAndAdd {
+    max-width: 1600px;
+    text-align: center;
+}
+
+.searchAndAdd input{
+    margin-bottom: 15px;
+    background-color: pink;
+}
+
+.searchAndAdd button {
+    margin-bottom: 15px;
+}
+
+button.delete {
+    margin: auto;
+    width: 60px;
+    padding: 10px;
+    border: 1px solid #111;
+    background-color: #f3adad;
+    font-weight: 600;
+    min-width: 30%;
+}
+
+button.delete:hover {
+    cursor: pointer;
+    background-color: red;
+}
+
+button.edit {
+    width: 60px;
+    padding: 10px;
+    border: 1px solid #111;
+    background-color: rgb(120, 182, 160);
+    font-weight: 600;
+    min-width: 30%;
+}
+
+button.edit:hover {
+    cursor: pointer;
+    background-color: magenta;
+}
+
+table button {
+    margin: auto;
+}

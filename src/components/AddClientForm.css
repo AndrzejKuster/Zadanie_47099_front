@@ -3,12 +3,11 @@ form {
 }
 
 form .wrapper {
-    /* display: inline-block; */
     padding-right: 10px;
 }
 
 form input {
-    width: 100%;
+    width: 220px;
     background-color: aquamarine;
 }
 

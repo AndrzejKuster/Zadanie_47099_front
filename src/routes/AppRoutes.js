@@ -9,10 +9,18 @@ const AppRoutes = (props) => {
     return (
         <Routes>
             <Route path="/" element={<Login user={props.user} setUser={props.setUser} />} />
-            <Route path="/clients" element={<ClientsList />} />
-            <Route path="/add-client" element={<AddClient />} />
-            <Route path="/add-action" element={<AddAction />} />
-            <Route path="/edit-client/:clientId" element={<EditClient />} />
+            <Route path="/clients/*">
+                <Route index element={<ClientsList />} />
+                <Route path="edit/:clientId/*">
+                    <Route index element={<EditClient />} />
+                    <Route path="actions/*">
+
+                        <Route path="add" element={<AddAction />} />
+                    </Route>
+                </Route>
+                <Route path="add" element={<AddClient />} />
+            </Route>
+
         </Routes>
     )
 }
